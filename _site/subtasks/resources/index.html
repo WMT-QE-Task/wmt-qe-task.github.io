@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Additional training resources &middot; WMT QE Shared Task
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+                                 <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body class="theme-base-0d">
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>
+        <a href="/">
+          WMT QE Shared Task
+        </a>
+      </h1>
+      <p class="lead">Automatic methods for estimating the quality of MT output at run-time.</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="/">Home</a>
+      
+
+      
+      
+        
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/subtasks/previous/">Previous Editions</a>
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item active" href="/subtasks/resources/">Additional training resources</a>
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/subtasks/task1/">Task 1: Quality prediction</a>
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/subtasks/task2/">Task 2: Explainable QE</a>
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/subtasks/task3/">Task 3: Critical Error Detection</a>
+          
+        
+      
+        
+      
+        
+      
+      
+      <a class="sidebar-nav-item" href="https://github.com/WMT-QE-Task/">GitHub project</a>
+    </nav>
+
+    <p>&copy; 2022. All rights reserved.</p>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="page">
+  <h1 class="page-title">Additional training resources</h1>
+  <p><a href="/">Home</a></p>
+
+<p>We provide below links to additional resources that can be used for training/augmentation.</p>
+
+<h1 id="task-1-quality-prediction">Task 1: Quality Prediction</h1>
+
+<p>## DA annotation data</p>
+
+<p>For the subtasks using <strong>DA annotations</strong> participants can use the annotations provided for the <em>Quality Estimation Shared Tasks</em> of the previous year(s) available on the MLQE-PE <a href="https://github.com/sheffieldnlp/mlqe-pe">github page</a>. For a full description of the abvailable language pairs and annotations please read the <a href="https://arxiv.org/abs/2010.04480">MLQE-PE paper</a>.</p>
+
+<p>The datasets were collected by translating sentences sampled from source language articles using state-of-the-art Transformer NMT models and annotated with a variant of Direct Assessment (DA) scores by professional translators. Each sentence was annotated following the FLORES setup, which presents a form of DA, where at least three professional translators rate each sentence from 0-100 according to the perceived translation quality. DA scores are standardised using the z-score by rater. Participating systems are required to score sentences according to z-standardised DA scores.</p>
+
+<p>You can donwload the NMT models used to generate the Wikipedia translations, as well as the Ru-En Wikipedia/Reddit NMT model. Here are details on the training data used to build the Ru-En model. The zero-shot translations were produced by a multilimgual Transformer NMT model.
+The multilingual NMT models used to generate translations for the zero-shot language pairs can be found here: mBART50 (many-to-one for Ps-En and Km-En, and one-to-many for En-Cs and En-Ja).</p>
+
+<p>It is also possible to use the DA annotations that were created for the Metrics shared tasks in the previous years.</p>
+
+</div>
+
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Task 3: Critical Error Detection &middot; WMT QE Shared Task
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+                                 <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body class="theme-base-0d">
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>
+        <a href="/">
+          WMT QE Shared Task
+        </a>
+      </h1>
+      <p class="lead">Automatic methods for estimating the quality of MT output at run-time.</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="/">Home</a>
+      
+
+      
+      
+        
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/subtasks/previous/">Previous Editions</a>
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/subtasks/resources/">Additional training resources</a>
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/subtasks/task1/">Task 1: Quality prediction</a>
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/subtasks/task2/">Task 2: Explainable QE</a>
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item active" href="/subtasks/task3/">Task 3: Critical Error Detection</a>
+          
+        
+      
+        
+      
+        
+      
+      
+      <a class="sidebar-nav-item" href="https://github.com/WMT-QE-Task/">GitHub project</a>
+    </nav>
+
+    <p>&copy; 2022. All rights reserved.</p>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="page">
+  <h1 class="page-title">Task 3: Critical Error Detection</h1>
+  <blockquote>
+  <p><code class="language-plaintext highlighter-rouge">❗</code> Since these errors are artificially created we strongly encourage participants not to use the training data and if so, we will split participants into <em>unconstrained &amp; constrained settings</em>. The baseline results using the provided training data are really high, indicating that the task is easy for a model that has access to training data that was created in a the same way. Nonetheless a traditional QE system trained on DA’s has a hard time finding which sentences where modified. For a <em>constrained</em> setting we will ask participants to submit systems that are purely trained on quality annotations such as DA’s, MQM and/or HTER. A strong QE system should be robust to these artificially created errors while maintaining a high correlation with human judgments!</p>
+</blockquote>
+
+<p>The goal of this task is to predict sentence-level binary scores indicating whether or not a translation contains a critical error. Translations with such errors are defined as translations that deviate in meaning as compared to the source sentence in such a way that they are misleading and may carry health, safety, legal, reputation, religious or financial implications. Meaning deviations from the source sentence can happen in three ways:</p>
+
+<p>Mistranslation: critical content is translated incorrectly into a different meaning.
+Hallucination: critical content that is not in the source is introduced in the translation, for example, addition of content that is not present in the source.
+Deletion: critical content that is in the source sentence is not present in the translation.</p>
+
+<p>We focus on a set of critical error categories:</p>
+
+<ul>
+  <li>Additions: Deviation where the translation content is only partially supported by the source.</li>
+  <li>Deletions: Deviation where part of the source sentence is ignored by the MT engine.</li>
+  <li>Named Entities: Deviation in named entities. A named entity (people, organization, location, etc.) is deleted, mistranslated by either another incorrect named entity or a common word or gibberish.</li>
+  <li>Meaning: Deviation in sentence meaning. The MT either introduces or removes a negation and the sentence meaning is completely reversed.</li>
+  <li>Numbers: Deviation in units. The MT translated a number/date/time or unit incorrectly</li>
+</ul>
+
+<p>Examples:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">source</th>
+      <th style="text-align: center">Translation</th>
+      <th style="text-align: center">Label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">A questão, em última análise, é saber porque deve a Alemanha tentar reduzir o seu excedente de transacções correntes.</td>
+      <td style="text-align: center">The question, <strong>ultimately, is which is not so simple: Is there an effective excuse</strong> why Germany should seek to reduce its current-account deficit surplus.</td>
+      <td style="text-align: center">ADD</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Alguns observadores, <strong>como o Presidente do Banco do Japão Haruhiko Kuroda,</strong> sugeriram que a China podia considerar o reforço dos controlos.</td>
+      <td style="text-align: center">A few observers, have suggested that China might consider tightening controls.</td>
+      <td style="text-align: center">DEL</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Na verdade, as mulheres ocupam apenas 14% das posições dos conselhos de direcção Europeus.</td>
+      <td style="text-align: center">Indeed, women hold only 14% of positions on <strong>US</strong> corporate boards.</td>
+      <td style="text-align: center">NE</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Os exportadores Chineses foram apanhados na tenaz da fraca procura externa e dos salários nacionais em rápido crescimento.</td>
+      <td style="text-align: center">Chinese exporters are caught between the pincers of weak foreign demand and rapidly <strong>lower</strong> domestic wages.</td>
+      <td style="text-align: center">MEAN</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Por exemplo, os povos indígenas constituem apenas 5% da população global, mas representam 15% da população pobre mundial.</td>
+      <td style="text-align: center">For example, indigenous peoples constitute just <strong>0.7%</strong> of the global population, but account for 15% of the world’s poor.</td>
+      <td style="text-align: center">NUM</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="training-and-development-data">Training and development data:</h4>
+<p>Data consists of News articles containing instances in the following languages:</p>
+<ul>
+  <li>Portuguese into English</li>
+  <li>English into German</li>
+</ul>
+
+<p><strong>Note:</strong> For the Enlgish into German we do not have any Meaning errors!</p>
+
+<h4 id="test-data">Test data:</h4>
+<p>Approximately 500 sentence pairs for each language pair are provided (News domain).</p>
+
+<p><strong>The data is extremely unbalanced because in practice these phenomenas are rare and for that reason difficult to detect in a reliable way.</strong></p>
+
+<h4 id="baselines">Baselines:</h4>
+<ul>
+  <li><em>Unconstrained</em> XLM-R large model for sequence classification</li>
+  <li><em>Constrained</em> <a href="https://github.com/Unbabel/COMET/blob/master/METRICS.md#wmt21-comet-metrics">wmt21-comet-qe-mqm</a></li>
+</ul>
+
+<p>For the <em>Constrained</em> baseline we rank data according to the scores produced by <code class="language-plaintext highlighter-rouge">wmt21-comet-qe-mqm</code> and anything below a certain threshold is assigned a BAD tag. A perfect QE system should easily rank segments with critical errors below the other translations.</p>
+
+<h4 id="evaluation">Evaluation:</h4>
+<p>Submissions will be evaluated in terms of ranking. We ask participants to provide a score for each sentence and a threshold will be used separate Good translations from Bad ones. We will analyse the Recall@K and MCC given the scores provided.</p>
+
+<p>The official evaluation script for this task can be found <a href="https://github.com/WMT-QE-Task/wmt-qe-2022-data/blob/main/critical-errors-subtask/official_evaluation.py">here</a></p>
+
+<p><em>Constrained</em>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python official_evaluation.py <span class="nt">-s</span> <span class="o">{</span>YOUR-SYSTEM-SCORES<span class="o">}</span>.txt <span class="nt">-l</span> en-de-dev/dev.label <span class="nt">-c</span>
+</code></pre></div></div>
+
+<p><em>Unconstrained</em>:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python official_evaluation.py <span class="nt">-s</span> <span class="o">{</span>YOUR-SYSTEM-SCORES<span class="o">}</span>.txt <span class="nt">-l</span> en-de-dev/dev.label <span class="nt">-u</span>
+</code></pre></div></div>
+
+<h4 id="baseline-results">Baseline Results:</h4>
+
+<p>Results for en-de Dev Set <em>Constrained</em> baseline:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">MCC@5.50</th>
+      <th style="text-align: center">Recall@5.50</th>
+      <th style="text-align: center">Precision@5.50</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">0.1076</td>
+      <td style="text-align: center">0.1567</td>
+      <td style="text-align: center">0.1567</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Results for the en-pt Dev Set</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">MCC@5.48</th>
+      <th style="text-align: center">Recall@5.48</th>
+      <th style="text-align: center">Precision@5.48</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">0.0727</td>
+      <td style="text-align: center">0.1235</td>
+      <td style="text-align: center">0.1235</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Example for en-de <em>Constrained</em>:</p>
+
+<p>Results for en-de Dev Set <em>Unconstrained</em> baseline:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">MCC@5.50</th>
+      <th style="text-align: center">Recall@5.50</th>
+      <th style="text-align: center">Precision@5.50</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">0.8943</td>
+      <td style="text-align: center">0.9001</td>
+      <td style="text-align: center">0.9001</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Results for the en-pt Dev Set</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">MCC@5.48</th>
+      <th style="text-align: center">Recall@5.48</th>
+      <th style="text-align: center">Precision@5.48</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">0.8955</td>
+      <td style="text-align: center">0.9012</td>
+      <td style="text-align: center">0.9012</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="previous-edition">Previous Edition</h4>
+<p>This subtask is similar to the <a href="https://www.statmt.org/wmt21/quality-estimation-task.html">Critical Error Detection shared task organized last year</a>, we recommend checking their findings paper. Nonetheless, note that the domain is totally different from last years shared task and the annotations also differ.</p>
+
+</div>
+
+    </div>
+
+  </body>
+</html>
